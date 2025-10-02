@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuário de Auriculoterapia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 40px);
+        }
+        
+        .column {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Coluna 1 com scroll */
+        .column:nth-child(1) {
+            overflow-y: auto;
+            max-height: 100%;
+        }
+        
+        /* Colunas 2 e 3 sem scroll */
+        .column:nth-child(2),
+        .column:nth-child(3) {
+            overflow: hidden;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d8e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        .pain-scale {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+        }
+        
+        .pain-level {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .pain-level label {
+            width: 150px;
+            margin-bottom: 0;
+            font-size: 13px;
+        }
+        
+        .pain-level input {
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        /* Estilo personalizado para as barras de dor com cores diferentes */
+        .dor-range-1 {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e74c3c;
+            outline: none;
+        }
+        
+        .dor-range-2 {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #f1c40f;
+            outline: none;
+        }
+        
+        .dor-range-3 {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #2ecc71;
+            outline: none;
+        }
+        
+        .dor-range-1::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #c0392b;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .dor-range-2::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #d68910;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .dor-range-3::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #27ae60;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .dor-range-1::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #c0392b;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .dor-range-2::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #d68910;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .dor-range-3::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #27ae60;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .ear-image {
+            width: 132px;
+            height: 176px;
+            background-color: #f9f9f9;
+            border: 2px dashed #a0aec0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: #718096;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto 15px auto;
+        }
+        
+        .ear-image .interactive-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .ear-image .map-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1;
+            opacity: 0.7;
+        }
+        
+        .homunculus {
+            width: 270px;
+            height: 254px;
+            background-color: #f9f9f9;
+            border: 2px dashed #a0aec0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: #718096;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto 15px auto;
+        }
+        
+        .homunculus .interactive-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .homunculus .map-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 1;
+            opacity: 0.7;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin: 30px auto 0;
+            width: 200px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .prontuario-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .prontuario-group input {
+            flex: 1;
+        }
+        
+        .load-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .load-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .folha-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .folha-group input {
+            flex: 1;
+        }
+        
+        .load-folha-btn {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .load-folha-btn:hover {
+            background-color: #8e44ad;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .modal h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .modal-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        /* Estilos para os mapas interativos */
+        .interactive-map {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            gap: 1px;
+            background-color: transparent;
+        }
+        
+        .map-cell {
+            background-color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+        }
+        
+        .map-cell:hover {
+            opacity: 0.8;
+        }
+        
+        .map-cell.red {
+            background-color: rgba(231, 76, 60, 0.7);
+        }
+        
+        .map-cell.yellow {
+            background-color: rgba(241, 196, 15, 0.7);
+        }
+        
+        .map-cell.green {
+            background-color: rgba(46, 204, 113, 0.7);
+        }
+        
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #aaa;
+        }
+        
+        .legend-red {
+            background-color: #e74c3c;
+        }
+        
+        .legend-yellow {
+            background-color: #f1c40f;
+        }
+        
+        .legend-green {
+            background-color: #2ecc71;
+        }
+        
+        .status-message {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Custom scrollbar para a coluna 1 */
+        .column:nth-child(1)::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .column:nth-child(1)::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .column:nth-child(1)::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .column:nth-child(1)::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .column:nth-child(1) {
+                max-height: none;
+                overflow-y: visible;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Primeira Coluna COM SCROLL -->
+        <div class="column">
+            <!-- Dados Pessoais -->
+            <div class="section">
+                <div class="section-title">Dados Pessoais</div>
+                
+                <div class="form-group">
+                    <label for="prontuario">Prontuário</label>
+                    <div class="prontuario-group">
+                        <input type="text" id="prontuario" name="prontuario">
+                        <button type="button" class="load-btn" id="carregarBtn">Carregar</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nascimento">Data de Nascimento</label>
+                    <input type="date" id="nascimento" name="nascimento">
+                </div>
+                
+                <div class="form-group">
+                    <label for="genero">Gênero</label>
+                    <select id="genero" name="genero">
+                        <option value="">Selecione</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="orientacao">Orientação</label>
+                    <input type="text" id="orientacao" name="orientacao">
+                </div>
+                
+                <div class="form-group">
+                    <label for="idade">Idade</label>
+                    <input type="text" id="idade" name="idade">
+                </div>
+                
+                <div class="form-group">
+                    <label for="vinculo">Vínculo</label>
+                    <input type="text" id="vinculo" name="vinculo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cargo">Cargo</label>
+                    <input type="text" id="cargo" name="cargo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="tel" id="telefone" name="telefone">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="whatsapp" name="whatsapp">
+                    <label for="whatsapp">WhatsApp</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf">
+                </div>
+                
+                <div class="form-group">
+                    <label for="siape">SIAPE</label>
+                    <input type="text" id="siape" name="siape">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="dependente" name="dependente">
+                    <label for="dependente">Dependente</label>
+                </div>
+            </div>
+            
+            <!-- Histórico -->
+            <div class="section">
+                <div class="section-title">Histórico</div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="permanece-sentado" name="permanece-sentado">
+                    <label for="permanece-sentado">Costuma permanecer sentado</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="cirurgia-recente" name="cirurgia-recente">
+                    <label for="cirurgia-recente">Fez cirurgia recente</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="qual-cirurgia">Qual cirurgia?</label>
+                    <input type="text" id="qual-cirurgia" name="qual-cirurgia">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="fumante" name="fumante">
+                    <label for="fumante">É fumante</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="antecedentes-alergicos">Antecedentes alérgicos</label>
+                    <input type="text" id="antecedentes-alergicos" name="antecedentes-alergicos">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="intestino-regular" name="intestino-regular">
+                    <label for="intestino-regular">Funcionamento regular do intestino</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="atividade-fisica" name="atividade-fisica">
+                    <label for="atividade-fisica">Pratica atividade física</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="problemas-pele" name="problemas-pele">
+                    <label for="problemas-pele">Problemas de pele</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="alimentacao-balanceada" name="alimentacao-balanceada">
+                    <label for="alimentacao-balanceada">Possui alimentação balanceada</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="ingere-liquidos" name="ingere-liquidos">
+                    <label for="ingere-liquidos">Ingere líquidos com frequência</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="gestante" name="gestante">
+                    <label for="gestante">Está gestante</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="condicao-ortopedica" name="condicao-ortopedica">
+                    <label for="condicao-ortopedica">Tem alguma condição ortopédica</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="tratamento-medico" name="tratamento-medico">
+                    <label for="tratamento-medico">Faz algum tratamento médico</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="qual-tratamento">Qual tratamento?</label>
+                    <input type="text" id="qual-tratamento" name="qual-tratamento">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="marcapasso" name="marcapasso">
+                    <label for="marcapasso">Portador de marcapasso</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="varizes" name="varizes">
+                    <label for="varizes">Possui varizes</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="onde-varizes">Onde?</label>
+                    <input type="text" id="onde-varizes" name="onde-varizes">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="dorme-bem" name="dorme-bem">
+                    <label for="dorme-bem">Dorme 6 a 8 horas por noite</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="sensibilidade-dor" name="sensibilidade-dor">
+                    <label for="sensibilidade-dor">Possui alguma sensibilidade à dor</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="alteracao-pa" name="alteracao-pa">
+                    <label for="alteracao-pa">Alteração de PA</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="diabetes" name="diabetes">
+                    <label for="diabetes">Diabetes</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo-diabetes">Tipo</label>
+                    <input type="text" id="tipo-diabetes" name="tipo-diabetes">
+                </div>
+                
+                <div class="form-group">
+                    <label for="outro-problema">Possui outro problema que deseja informar antes do procedimento?</label>
+                    <textarea id="outro-problema" name="outro-problema" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- Homúnculo e Escala de Dor -->
+            <div class="section">
+                <div class="section-title">Avaliação de Dor</div>
+                
+                <div class="homunculus">
+                    <div class="map-background" id="homunculoBackground"></div>
+                    <div class="interactive-map" id="homunculoMap"></div>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-red"></div>
+                        <span>Vermelho (1 clique)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-yellow"></div>
+                        <span>Amarelo (2 cliques)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-green"></div>
+                        <span>Verde (3 cliques)</span>
+                    </div>
+                </div>
+                
+                <div class="pain-scale">
+                    <div class="section-title">Intensidade de Dor nos Últimos 2 Dias</div>
+                    
+                    <div class="pain-level">
+                        <label>Sem dor (0)</label>
+                        <input type="range" min="0" max="10" value="0" class="dor-range-1">
+                        <label>Pior dor imaginável (10)</label>
+                    </div>
+                    
+                    <div class="pain-level">
+                        <label>Sem dor (0)</label>
+                        <input type="range" min="0" max="10" value="0" class="dor-range-2">
+                        <label>Pior dor imaginável (10)</label>
+                    </div>
+                    
+                    <div class="pain-level">
+                        <label>Sem dor (0)</label>
+                        <input type="range" min="0" max="10" value="0" class="dor-range-3">
+                        <label>Pior dor imaginável (10)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Segunda Coluna SEM SCROLL -->
+        <div class="column">
+            <div class="section">
+                <div class="section-title">Evolução e Histórico</div>
+                <textarea id="evolucao" name="evolucao" rows="40" placeholder="Descreva a evolução e histórico do paciente..."></textarea>
+            </div>
+        </div>
+        
+        <!-- Terceira Coluna SEM SCROLL -->
+        <div class="column">
+            <!-- Imagem da Orelha 1 -->
+            <div class="section">
+                <div class="section-title">Avaliação Auricular - INICIAL</div>
+                <div class="ear-image">
+                    <div class="map-background" id="orelha1Background"></div>
+                    <div class="interactive-map" id="orelha1Map"></div>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-red"></div>
+                        <span>Vermelho (1 clique)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-yellow"></div>
+                        <span>Amarelo (2 cliques)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-green"></div>
+                        <span>Verde (3 cliques)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Folha Número e Imagem da Orelha 2 -->
+            <div class="section">
+                <div class="form-group">
+                    <label for="folha-numero">Avaliação Número</label>
+                    <div class="folha-group">
+                        <input type="text" id="folha-numero" name="folha-numero">
+                        <button type="button" class="load-folha-btn" id="carregarFolhaBtn">Carregar Avaliação</button>
+                    </div>
+                </div>
+                
+                <div class="section-title">Avaliação Auricular - SUBSEQUENTE</div>
+                <div class="ear-image">
+                    <div class="map-background" id="orelha2Background"></div>
+                    <div class="interactive-map" id="orelha2Map"></div>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-red"></div>
+                        <span>Vermelho (1 clique)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-yellow"></div>
+                        <span>Amarelo (2 cliques)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-green"></div>
+                        <span>Verde (3 cliques)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button type="button" class="submit-btn" id="salvarBtn">Salvar Prontuário</button>
+    
+    <div id="statusMessage" class="status-message" style="display: none;"></div>
+    
+    <!-- Modal para novo prontuário -->
+    <div class="modal" id="novoProntuarioModal">
+        <div class="modal-content">
+            <h3>Novo Prontuário</h3>
+            <p>Este é um novo prontuário. Preencha os dados do paciente.</p>
+            <button class="modal-btn" id="fecharModalBtn">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURAÇÕES DO GITHUB
+        const GITHUB_TOKEN = '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';
+        const GITHUB_OWNER = 'ikihcm';
+        const GITHUB_REPO = 'auric';
+        const GITHUB_BRANCH = 'main';
+
+        // URLs das imagens no GitHub
+        const IMAGE_URLS = {
+            homunculo: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/core/homun.jpg`,
+            orelha: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/core/auriculo.jpg`
+        };
+
+        // Chaves para localStorage
+        const STORAGE_KEYS = {
+            homunculo: 'core_homunculo',
+            orelha: 'core_orelha',
+            homunculoTimestamp: 'core_homunculo_timestamp',
+            orelhaTimestamp: 'core_orelha_timestamp'
+        };
+
+        // Tempo de cache em milissegundos (7 dias)
+        const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
+
+        // Função para obter o token
+        function getGitHubToken() {
+            if (GITHUB_TOKEN && GITHUB_TOKEN !== 'SEU_TOKEN_AQUI') {
+                return GITHUB_TOKEN;
+            }
+            
+            const token = prompt('Por favor, insira seu token do GitHub:');
+            if (token) {
+                return token;
+            }
+            
+            throw new Error('Token do GitHub não fornecido');
+        }
+
+        // Função para converter imagem para Base64
+        function imageToBase64(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas.toDataURL('image/jpeg'));
+                };
+                img.onerror = reject;
+                img.src = url;
+            });
+        }
+
+        // Função para baixar e salvar imagem no localStorage
+        async function downloadAndSaveImage(imageKey, timestampKey, imageUrl) {
+            try {
+                console.log(`Baixando imagem: ${imageUrl}`);
+                const base64 = await imageToBase64(imageUrl);
+                
+                // Salvar no localStorage
+                localStorage.setItem(imageKey, base64);
+                localStorage.setItem(timestampKey, Date.now().toString());
+                
+                console.log(`Imagem ${imageKey} salva no localStorage`);
+                return base64;
+            } catch (error) {
+                console.error(`Erro ao baixar imagem ${imageKey}:`, error);
+                throw error;
+            }
+        }
+
+        // Função para obter imagem do localStorage ou baixar
+        async function getImage(imageKey, timestampKey, imageUrl) {
+            const cachedImage = localStorage.getItem(imageKey);
+            const cachedTimestamp = localStorage.getItem(timestampKey);
+            
+            // Verificar se a imagem está em cache e não expirou
+            if (cachedImage && cachedTimestamp) {
+                const age = Date.now() - parseInt(cachedTimestamp);
+                if (age < CACHE_DURATION) {
+                    console.log(`Usando imagem ${imageKey} do cache`);
+                    return cachedImage;
+                } else {
+                    console.log(`Cache da imagem ${imageKey} expirado, baixando novamente`);
+                }
+            }
+            
+            // Se não tem cache ou expirou, baixar novamente
+            return await downloadAndSaveImage(imageKey, timestampKey, imageUrl);
+        }
+
+        // Função para carregar todas as imagens
+        async function loadAllImages() {
+            const homunculoBackground = document.getElementById('homunculoBackground');
+            const orelha1Background = document.getElementById('orelha1Background');
+            const orelha2Background = document.getElementById('orelha2Background');
+            
+            // Mostrar loading
+            //showImageLoading(homunculoBackground, 'Carregando homúnculo...');
+            //showImageLoading(orelha1Background, 'Carregando orelha...');
+            //showImageLoading(orelha2Background, 'Carregando orelha...');
+            
+            try {
+                // Carregar homúnculo
+                const homunculoData = await getImage(
+                    STORAGE_KEYS.homunculo,
+                    STORAGE_KEYS.homunculoTimestamp,
+                    IMAGE_URLS.homunculo
+                );
+                homunculoBackground.style.backgroundImage = `url('${homunculoData}')`;
+                hideImageLoading(homunculoBackground);
+                
+                // Carregar orelha (usa a mesma imagem para ambas)
+                const orelhaData = await getImage(
+                    STORAGE_KEYS.orelha,
+                    STORAGE_KEYS.orelhaTimestamp,
+                    IMAGE_URLS.orelha
+                );
+                orelha1Background.style.backgroundImage = `url('${orelhaData}')`;
+                orelha2Background.style.backgroundImage = `url('${orelhaData}')`;
+                hideImageLoading(orelha1Background);
+                hideImageLoading(orelha2Background);
+                
+                showStatus('Imagens carregadas com sucesso!', 'success');
+                
+            } catch (error) {
+                console.error('Erro ao carregar imagens:', error);
+                //showImageError(homunculoBackground, 'Erro ao carregar homúnculo');
+                //showImageError(orelha1Background, 'Erro ao carregar orelha');
+                //showImageError(orelha2Background, 'Erro ao carregar orelha');
+                //showStatus('Erro ao carregar algumas imagens', 'error');
+            }
+        }
+
+        // Função para mostrar loading nas imagens
+        function showImageLoading(container, message) {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'image-loading';
+            loadingDiv.innerHTML = `
+                <div class="loading-spinner"></div>
+                <div>${message}</div>
+            `;
+            container.appendChild(loadingDiv);
+        }
+
+        // Função para esconder loading
+        function hideImageLoading(container) {
+            const loadingDiv = container.querySelector('.image-loading');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+        }
+
+        // Função para mostrar erro no carregamento da imagem
+        function showImageError(container, message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'image-loading';
+            errorDiv.innerHTML = `
+                <div style="color: #e74c3c; font-size: 24px;">⚠️</div>
+                <div style="color: #e74c3c;">${message}</div>
+            `;
+            container.appendChild(errorDiv);
+        }
+
+        // Função para forçar atualização das imagens
+        async function forceUpdateImages() {
+            if (confirm('Deseja forçar a atualização das imagens? Isso irá baixá-las novamente do GitHub.')) {
+                // Remover cache antigo
+                localStorage.removeItem(STORAGE_KEYS.homunculo);
+                localStorage.removeItem(STORAGE_KEYS.orelha);
+                localStorage.removeItem(STORAGE_KEYS.homunculoTimestamp);
+                localStorage.removeItem(STORAGE_KEYS.orelhaTimestamp);
+                
+                // Recarregar imagens
+                await loadAllImages();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const carregarBtn = document.getElementById('carregarBtn');
+            const carregarFolhaBtn = document.getElementById('carregarFolhaBtn');
+            const salvarBtn = document.getElementById('salvarBtn');
+            const prontuarioInput = document.getElementById('prontuario');
+            const folhaNumeroInput = document.getElementById('folha-numero');
+            const novoProntuarioModal = document.getElementById('novoProntuarioModal');
+            const fecharModalBtn = document.getElementById('fecharModalBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Criar os mapas interativos
+            function createInteractiveMap(containerId, rows, cols) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+                
+                for (let i = 0; i < rows * cols; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'map-cell';
+                    cell.dataset.clicks = '0';
+                    
+                    cell.addEventListener('click', function() {
+                        let clicks = parseInt(this.dataset.clicks);
+                        clicks = (clicks + 1) % 4;
+                        this.dataset.clicks = clicks.toString();
+                        
+                        this.classList.remove('red', 'yellow', 'green');
+                        
+                        if (clicks === 1) {
+                            this.classList.add('red');
+                        } else if (clicks === 2) {
+                            this.classList.add('yellow');
+                        } else if (clicks === 3) {
+                            this.classList.add('green');
+                        }
+                    });
+                    
+                    container.appendChild(cell);
+                }
+                
+                return container;
+            }
+            
+            // Criar os mapas interativos
+            const homunculoMap = createInteractiveMap('homunculoMap', 8, 8);
+            const orelha1Map = createInteractiveMap('orelha1Map', 20, 20);
+            const orelha2Map = createInteractiveMap('orelha2Map', 20, 20);
+            
+            // Função para salvar estado do mapa
+            function saveMapState(mapElement) {
+                const cells = mapElement.querySelectorAll('.map-cell');
+                const state = [];
+                cells.forEach(cell => state.push(cell.dataset.clicks));
+                return state.join(',');
+            }
+            
+            // Função para carregar estado do mapa
+            function loadMapState(mapElement, stateString) {
+                const states = stateString.split(',');
+                const cells = mapElement.querySelectorAll('.map-cell');
+                
+                cells.forEach((cell, index) => {
+                    const state = states[index] || '0';
+                    cell.dataset.clicks = state;
+                    cell.classList.remove('red', 'yellow', 'green');
+                    
+                    if (state === '1') cell.classList.add('red');
+                    else if (state === '2') cell.classList.add('yellow');
+                    else if (state === '3') cell.classList.add('green');
+                });
+            }
+            
+            // Funções para GitHub API
+            async function githubApiRequest(url, options = {}) {
+                const token = getGitHubToken();
+                
+                const defaultOptions = {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+                
+                const finalOptions = { ...defaultOptions, ...options };
+                
+                try {
+                    const response = await fetch(url, finalOptions);
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`GitHub API error: ${response.status} ${response.statusText} - ${errorText}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.error('GitHub API request failed:', error);
+                    throw error;
+                }
+            }
+            
+            async function getFileFromGitHub(filePath) {
+                const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`;
+                try {
+                    const fileData = await githubApiRequest(url);
+                    if (fileData.content) {
+                        const content = atob(fileData.content.replace(/\n/g, ''));
+                        return JSON.parse(content);
+                    }
+                    return null;
+                } catch (error) {
+                    if (error.message.includes('404') || error.message.includes('Not Found')) {
+                        return null;
+                    }
+                    throw error;
+                }
+            }
+            
+            async function saveFileToGitHub(filePath, content, commitMessage) {
+                const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
+                
+                let sha = null;
+                try {
+                    const existingFile = await githubApiRequest(`${url}?ref=${GITHUB_BRANCH}`);
+                    sha = existingFile.sha;
+                } catch (error) {
+                    console.log('Arquivo não existe, criando novo...');
+                }
+                
+                const payload = {
+                    message: commitMessage,
+                    content: btoa(JSON.stringify(content, null, 2)),
+                    branch: GITHUB_BRANCH
+                };
+                
+                if (sha) {
+                    payload.sha = sha;
+                }
+                
+                return await githubApiRequest(url, {
+                    method: 'PUT',
+                    body: JSON.stringify(payload)
+                });
+            }
+            
+            // Função para salvar dados do formulário
+            async function salvarFormulario() {
+                const numeroProntuario = prontuarioInput.value.trim();
+                const folhaNumero = folhaNumeroInput.value.trim();
+                
+                if (numeroProntuario === '') {
+                    showStatus('Por favor, insira um número de prontuário.', 'error');
+                    return;
+                }
+                
+                setLoading(true);
+                
+                try {
+                    // Preparar dados da coluna 1
+                    const coluna1Data = {
+                        prontuario: numeroProntuario,
+                        nome: document.getElementById('nome').value,
+                        nascimento: document.getElementById('nascimento').value,
+                        genero: document.getElementById('genero').value,
+                        orientacao: document.getElementById('orientacao').value,
+                        idade: document.getElementById('idade').value,
+                        vinculo: document.getElementById('vinculo').value,
+                        cargo: document.getElementById('cargo').value,
+                        telefone: document.getElementById('telefone').value,
+                        whatsapp: document.getElementById('whatsapp').checked,
+                        cpf: document.getElementById('cpf').value,
+                        siape: document.getElementById('siape').value,
+                        email: document.getElementById('email').value,
+                        dependente: document.getElementById('dependente').checked,
+                        // Histórico
+                        permaneceSentado: document.getElementById('permanece-sentado').checked,
+                        cirurgiaRecente: document.getElementById('cirurgia-recente').checked,
+                        qualCirurgia: document.getElementById('qual-cirurgia').value,
+                        fumante: document.getElementById('fumante').checked,
+                        antecedentesAlergicos: document.getElementById('antecedentes-alergicos').value,
+                        intestinoRegular: document.getElementById('intestino-regular').checked,
+                        atividadeFisica: document.getElementById('atividade-fisica').checked,
+                        problemasPele: document.getElementById('problemas-pele').checked,
+                        alimentacaoBalanceada: document.getElementById('alimentacao-balanceada').checked,
+                        ingereLiquidos: document.getElementById('ingere-liquidos').checked,
+                        gestante: document.getElementById('gestante').checked,
+                        condicaoOrtopedica: document.getElementById('condicao-ortopedica').checked,
+                        tratamentoMedico: document.getElementById('tratamento-medico').checked,
+                        qualTratamento: document.getElementById('qual-tratamento').value,
+                        marcapasso: document.getElementById('marcapasso').checked,
+                        varizes: document.getElementById('varizes').checked,
+                        ondeVarizes: document.getElementById('onde-varizes').value,
+                        dormeBem: document.getElementById('dorme-bem').checked,
+                        sensibilidadeDor: document.getElementById('sensibilidade-dor').checked,
+                        alteracaoPA: document.getElementById('alteracao-pa').checked,
+                        diabetes: document.getElementById('diabetes').checked,
+                        tipoDiabetes: document.getElementById('tipo-diabetes').value,
+                        outroProblema: document.getElementById('outro-problema').value,
+                        // Homúnculo
+                        homunculoState: saveMapState(homunculoMap),
+                        // Escalas de dor
+                        dorScales: [
+                            document.querySelector('.dor-range-1').value,
+                            document.querySelector('.dor-range-2').value,
+                            document.querySelector('.dor-range-3').value
+                        ],
+                        // Metadados
+                        dataSalvamento: new Date().toISOString(),
+                        versao: '1.0'
+                    };
+                    
+                    // Preparar dados da coluna 2
+                    const coluna2Data = {
+                        evolucao: document.getElementById('evolucao').value,
+                        dataSalvamento: new Date().toISOString()
+                    };
+                    
+                    // Preparar dados das orelhas
+                    const orelha1Data = { 
+                        state: saveMapState(orelha1Map),
+                        dataSalvamento: new Date().toISOString()
+                    };
+                    const orelha2Data = { 
+                        state: saveMapState(orelha2Map),
+                        dataSalvamento: new Date().toISOString()
+                    };
+                    
+                    // Salvar no GitHub
+                    await saveFileToGitHub(
+                        `data/${numeroProntuario}.p.txt`,
+                        coluna1Data,
+                        `Salvar prontuário ${numeroProntuario} - dados pessoais`
+                    );
+                    
+                    await saveFileToGitHub(
+                        `data/${numeroProntuario}.e.txt`,
+                        coluna2Data,
+                        `Salvar prontuário ${numeroProntuario} - evolução`
+                    );
+                    
+                    await saveFileToGitHub(
+                        `data/${numeroProntuario}.a1.txt`,
+                        orelha1Data,
+                        `Salvar prontuário ${numeroProntuario} - orelha 1`
+                    );
+                    
+                    if (folhaNumero) {
+                        await saveFileToGitHub(
+                            `data/${numeroProntuario}.a${folhaNumero}.txt`,
+                            orelha2Data,
+                            `Salvar prontuário ${numeroProntuario} - orelha 2 folha ${folhaNumero}`
+                        );
+                    }
+                    
+                    showStatus('Formulário salvo com sucesso no GitHub!', 'success');
+                    
+                } catch (error) {
+                    console.error('Erro ao salvar:', error);
+                    showStatus('Erro ao salvar o formulário: ' + error.message, 'error');
+                } finally {
+                    setLoading(false);
+                }
+            }
+            
+            // Função para carregar dados do prontuário
+            async function carregarDadosProntuario(numeroProntuario) {
+                setLoading(true);
+                
+                try {
+                    // Carregar coluna 1
+                    const coluna1Data = await getFileFromGitHub(`data/${numeroProntuario}.p.txt`);
+                    if (coluna1Data) {
+                        // Preencher dados pessoais
+                        document.getElementById('nome').value = coluna1Data.nome || '';
+                        document.getElementById('nascimento').value = coluna1Data.nascimento || '';
+                        document.getElementById('genero').value = coluna1Data.genero || '';
+                        document.getElementById('orientacao').value = coluna1Data.orientacao || '';
+                        document.getElementById('idade').value = coluna1Data.idade || '';
+                        document.getElementById('vinculo').value = coluna1Data.vinculo || '';
+                        document.getElementById('cargo').value = coluna1Data.cargo || '';
+                        document.getElementById('telefone').value = coluna1Data.telefone || '';
+                        document.getElementById('whatsapp').checked = coluna1Data.whatsapp || false;
+                        document.getElementById('cpf').value = coluna1Data.cpf || '';
+                        document.getElementById('siape').value = coluna1Data.siape || '';
+                        document.getElementById('email').value = coluna1Data.email || '';
+                        document.getElementById('dependente').checked = coluna1Data.dependente || false;
+                        
+                        // Preencher histórico
+                        document.getElementById('permanece-sentado').checked = coluna1Data.permaneceSentado || false;
+                        document.getElementById('cirurgia-recente').checked = coluna1Data.cirurgiaRecente || false;
+                        document.getElementById('qual-cirurgia').value = coluna1Data.qualCirurgia || '';
+                        document.getElementById('fumante').checked = coluna1Data.fumante || false;
+                        document.getElementById('antecedentes-alergicos').value = coluna1Data.antecedentesAlergicos || '';
+                        document.getElementById('intestino-regular').checked = coluna1Data.intestinoRegular || false;
+                        document.getElementById('atividade-fisica').checked = coluna1Data.atividadeFisica || false;
+                        document.getElementById('problemas-pele').checked = coluna1Data.problemasPele || false;
+                        document.getElementById('alimentacao-balanceada').checked = coluna1Data.alimentacaoBalanceada || false;
+                        document.getElementById('ingere-liquidos').checked = coluna1Data.ingereLiquidos || false;
+                        document.getElementById('gestante').checked = coluna1Data.gestante || false;
+                        document.getElementById('condicao-ortopedica').checked = coluna1Data.condicaoOrtopedica || false;
+                        document.getElementById('tratamento-medico').checked = coluna1Data.tratamentoMedico || false;
+                        document.getElementById('qual-tratamento').value = coluna1Data.qualTratamento || '';
+                        document.getElementById('marcapasso').checked = coluna1Data.marcapasso || false;
+                        document.getElementById('varizes').checked = coluna1Data.varizes || false;
+                        document.getElementById('onde-varizes').value = coluna1Data.ondeVarizes || '';
+                        document.getElementById('dorme-bem').checked = coluna1Data.dormeBem || false;
+                        document.getElementById('sensibilidade-dor').checked = coluna1Data.sensibilidadeDor || false;
+                        document.getElementById('alteracao-pa').checked = coluna1Data.alteracaoPA || false;
+                        document.getElementById('diabetes').checked = coluna1Data.diabetes || false;
+                        document.getElementById('tipo-diabetes').value = coluna1Data.tipoDiabetes || '';
+                        document.getElementById('outro-problema').value = coluna1Data.outroProblema || '';
+                        
+                        // Homúnculo
+                        if (coluna1Data.homunculoState) {
+                            loadMapState(homunculoMap, coluna1Data.homunculoState);
+                        }
+                        
+                        // Escalas de dor
+                        if (coluna1Data.dorScales) {
+                            document.querySelector('.dor-range-1').value = coluna1Data.dorScales[0] || 0;
+                            document.querySelector('.dor-range-2').value = coluna1Data.dorScales[1] || 0;
+                            document.querySelector('.dor-range-3').value = coluna1Data.dorScales[2] || 0;
+                        }
+                    }
+                    
+                    // Carregar coluna 2
+                    const coluna2Data = await getFileFromGitHub(`data/${numeroProntuario}.e.txt`);
+                    if (coluna2Data) {
+                        document.getElementById('evolucao').value = coluna2Data.evolucao || '';
+                    }
+                    
+                    // Carregar orelha 1
+                    const orelha1Data = await getFileFromGitHub(`data/${numeroProntuario}.a1.txt`);
+                    if (orelha1Data && orelha1Data.state) {
+                        loadMapState(orelha1Map, orelha1Data.state);
+                    }
+                    
+                    showStatus('Dados do prontuário carregados com sucesso!', 'success');
+                    return true;
+                    
+                } catch (error) {
+                    console.error('Erro ao carregar:', error);
+                    showStatus('Erro ao carregar dados: ' + error.message, 'error');
+                    return false;
+                } finally {
+                    setLoading(false);
+                }
+            }
+            
+            // Função para carregar orelha 2 específica
+            async function carregarOrelha2(numeroProntuario, folhaNumero) {
+                setLoading(true);
+                
+                try {
+                    const orelha2Data = await getFileFromGitHub(`data/${numeroProntuario}.a${folhaNumero}.txt`);
+                    if (orelha2Data && orelha2Data.state) {
+                        loadMapState(orelha2Map, orelha2Data.state);
+                        showStatus(`Orelha 2 da folha ${folhaNumero} carregada com sucesso!`, 'success');
+                        return true;
+                    } else {
+                        showStatus(`Nenhum dado encontrado para a folha ${folhaNumero}`, 'error');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar orelha 2:', error);
+                    showStatus('Erro ao carregar orelha 2: ' + error.message, 'error');
+                    return false;
+                } finally {
+                    setLoading(false);
+                }
+            }
+            
+            // Função para mostrar mensagens de status
+            function showStatus(message, type) {
+                statusMessage.textContent = message;
+                statusMessage.className = `status-message status-${type}`;
+                statusMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Função para controlar estado de loading
+            function setLoading(loading) {
+                if (loading) {
+                    document.body.classList.add('loading');
+                    showStatus('Processando...', 'success');
+                } else {
+                    document.body.classList.remove('loading');
+                }
+            }
+            
+            // Event listeners
+            carregarBtn.addEventListener('click', async function() {
+                const numeroProntuario = prontuarioInput.value.trim();
+                
+                if (numeroProntuario === '') {
+                    showStatus('Por favor, insira um número de prontuário.', 'error');
+                    return;
+                }
+                
+                try {
+                    const prontuarioExiste = await getFileFromGitHub(`data/${numeroProntuario}.p.txt`) !== null;
+                    
+                    if (prontuarioExiste) {
+                        await carregarDadosProntuario(numeroProntuario);
+                    } else {
+                        novoProntuarioModal.style.display = 'flex';
+                    }
+                } catch (error) {
+                    showStatus('Erro ao verificar prontuário: ' + error.message, 'error');
+                }
+            });
+            
+            carregarFolhaBtn.addEventListener('click', async function() {
+                const numeroProntuario = prontuarioInput.value.trim();
+                const folhaNumero = folhaNumeroInput.value.trim();
+                
+                if (numeroProntuario === '') {
+                    showStatus('Por favor, insira um número de prontuário.', 'error');
+                    return;
+                }
+                
+                if (folhaNumero === '') {
+                    showStatus('Por favor, insira um número de folha.', 'error');
+                    return;
+                }
+                
+                await carregarOrelha2(numeroProntuario, folhaNumero);
+            });
+            
+            salvarBtn.addEventListener('click', salvarFormulario);
+            
+            fecharModalBtn.addEventListener('click', function() {
+                novoProntuarioModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === novoProntuarioModal) {
+                    novoProntuarioModal.style.display = 'none';
+                }
+            });
+
+            // Adicionar botão para forçar atualização de imagens
+            const updateImagesBtn = document.createElement('button');
+            updateImagesBtn.textContent = 'Atualizar Imagens';
+            updateImagesBtn.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: #9b59b6;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 12px;
+                z-index: 1000;
+            `;
+            updateImagesBtn.addEventListener('click', forceUpdateImages);
+            document.body.appendChild(updateImagesBtn);
+
+            // Carregar imagens ao iniciar
+            loadAllImages();
+        });
+    </script>
+</body>
+</html>
